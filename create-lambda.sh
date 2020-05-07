@@ -34,14 +34,14 @@ aws lambda create-function \
   --environment "Variables={ACCOUNT_ID=${ACCOUNT_ID},BUCKET_NAME=${BUCKET_NAME}}"
 
 #
-# Configure Cross-Account Bucket Policy
+# Configure S3 Bucket Policy for Cross-Account access
 #
 aws s3api put-bucket-policy \
   --bucket "${BUCKET_NAME}" \
   --policy "$(ACCOUNT_ID=${ACCOUNT_ID} PRINCIPAL_USERNAME=${PRINCIPAL_USERNAME} BUCKET_NAME=${BUCKET_NAME} envsubst < bucket-policy.json.template)"
 
 #
-# Configure CloudWatch Scheduled Event
+# Configure CloudWatch Scheduled Event + Lambda Trigger
 #
 aws events put-rule \
   --name "${FUNCTION_NAME}-monthly" \
